@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { Command } from './command.interface.js';
 
 export class HelpCommand implements Command {
@@ -6,12 +7,16 @@ export class HelpCommand implements Command {
   }
 
   public async execute(..._parameters: string[]): Promise<void> {
-    console.info(`
+    console.info(chalk.green(`
         Программа для подготовки данных для REST API сервера.
+    `));
 
+    console.info(chalk.red(`
         Пример:
             cli.js --<command> [--arguments]
+    `));
 
+    console.info(`
         Команды:
             --version:                   # выводит номер версии
             --help:                      # печатает этот текст
