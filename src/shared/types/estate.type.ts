@@ -9,7 +9,7 @@ export type Estate = {
   date: Date;
   city: City;
   imagePrev: string;
-  photos: [string];
+  photos: string[];
   premium: boolean;
   favorite: boolean;
   rating: number;
@@ -17,7 +17,7 @@ export type Estate = {
   rooms: number;
   maxGuests: number;
   price: number;
-  comfort: EstateComfort;
+  comfort: EstateComfort[];
   author: User;
   commentsNum: number;
   coords: string;
