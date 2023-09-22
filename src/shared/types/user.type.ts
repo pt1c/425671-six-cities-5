@@ -1,4 +1,4 @@
-import { UserType } from "./user-type.type.js";
+import { UserType } from './user-type.type.js';
 
 export type User = {
   username: string;
