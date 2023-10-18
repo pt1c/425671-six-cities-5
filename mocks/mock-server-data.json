@@ -1,0 +1,81 @@
+{
+  "api": {
+    "titles": [
+      "Дом с приведениями",
+      "Дом папы-Карло",
+      "Небоскреб",
+      "Хатка Бобра",
+      "Хижина дяди Тома"
+    ],
+    "descriptions": [
+      "Отличный дом с Каспером внутри.",
+      "Пристанище для менщинства.",
+      "Небольшая, но уютная квартирка.",
+      "Просто отличная хата.",
+      "Новое место для старых костей.",
+      "Халупа с видом на помойку."
+    ],
+     "cities": [
+      "Paris",
+      "Cologne",
+      "Brussels",
+      "Amsterdam",
+      "Hamburg",
+      "Dusseldorf"
+    ],
+    "photoPreview": [
+      "prev1.jpg",
+      "prev2.jpg",
+      "prev3.jpg",
+      "prev4.jpg",
+      "prev5.jpg"
+    ],
+    "photos": [
+      "picture1.jpg",
+      "picture2.jpg",
+      "picture3.jpg",
+      "picture4.jpg",
+      "picture5.jpg"
+    ],
+    "types": [
+      "Apartment",
+      "House",
+      "Room",
+      "Hotel"
+    ],
+    "options": [
+      "Breakfast",
+      "AirConditioning",
+      "LaptopFriendlyWorkspace",
+      "BabySeat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "users": [
+      "Casper",
+      "Tom Sawyer",
+      "TomTheDude",
+      "Heil",
+      "John Doe"
+    ],
+    "userType": [
+      "Common",
+      "Pro"
+    ],
+    "emails": [
+      "doe@lost.local",
+      "heil@nifheilm.local",
+      "flipper@fish.local",
+      "test@pisem.local",
+      "freedom@fscoiety.local"
+    ],
+    "avatars": [
+      "avatar1.jpg",
+      "avatar2.jpg",
+      "avatar3.jpg",
+      "avatar4.jpg",
+      "avatar5.jpg"
+    ]
+  }
+}

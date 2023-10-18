@@ -1,55 +1,36 @@
 import { FileReader } from './file-reader.interface.js';
-import { readFileSync } from 'node:fs';
-import { Estate } from '../../types/index.js';
-import { City } from '../../types/city.type.js';
-import { EstateType } from '../../types/estate-type.type.js';
-import { EstateComfort } from '../../types/estate-comfort.type.js';
-import { UserType } from '../../types/user-type.type.js';
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
 
-export class TSVFileReader implements FileReader {
-  private rawData = '';
+const CHUNK_SIZE = 16384; // 16KBc
 
-  constructor(
-    private readonly filename: string
-  ) {}
-
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
+export class TSVFileReader extends EventEmitter implements FileReader {
+  constructor(private readonly filename: string) {
+    super();
   }
 
-  public toArray(): Estate[] {
-    if (!this.rawData) {
-      throw new Error('File was not read');
+  public async read(): Promise<void> {
+    const readStream = createReadStream(this.filename, {
+      highWaterMark: CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
+
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of readStream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        this.emit('line', completeRow);
+      }
     }
 
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim().length > 0)
-      .map((line) => line.split('\t'))
-      .map(([name, description, inputDate, city, imagePrev, photos, premium, favorite, rating, type, rooms, maxGuests, price, comfort, author, commentsNum, coords]) => ({
-        name,
-        description,
-        date: new Date(inputDate),
-        city: City[city as 'Paris'|'Cologne'|'Brussels'|'Amsterdam'|'Hamburg'|'Dusseldorf'],
-        imagePrev,
-        photos: photos.split(';'),
-        premium: Boolean(premium),
-        favorite: Boolean(favorite),
-        rating: Number.parseFloat(rating),
-        type: EstateType[(type.charAt(0).toUpperCase() + type.slice(1)) as 'Apartment'|'House'|'Room'|'Hotel'],
-        rooms: Number.parseInt(rooms, 10),
-        maxGuests: Number.parseInt(maxGuests, 10),
-        price: Number.parseInt(price, 10),
-        comfort: comfort.split(';').map((comfortName) => (EstateComfort[comfortName as 'Breakfast'|'AirConditioning'|'LaptopWS'|'BabySeat'|'Washer'|'Towels'|'Fridge'])),
-        author: {
-          username: author,
-          email: 'test@test.local',
-          password: '',
-          avatarPath: '',
-          type: UserType.Common,
-        },
-        commentsNum: Number.parseInt(commentsNum, 10),
-        coords
-      }));
+    this.emit('end', importedRowCount);
   }
 }
