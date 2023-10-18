@@ -23,14 +23,14 @@
       "Hamburg",
       "Dusseldorf"
     ],
-    "previewImages": [
+    "photoPreview": [
       "prev1.jpg",
       "prev2.jpg",
       "prev3.jpg",
       "prev4.jpg",
       "prev5.jpg"
     ],
-    "offerImages": [
+    "photos": [
       "picture1.jpg",
       "picture2.jpg",
       "picture3.jpg",
