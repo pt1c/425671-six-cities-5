@@ -5,3 +5,4 @@ export * from './estate-type.type.js';
 export * from './estate.type.js';
 export * from './mock-server-data.type.js';
 export * from './estate-options.type.js';
+export * from './component.enum.js';
