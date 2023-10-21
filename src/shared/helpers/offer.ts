@@ -4,7 +4,7 @@ export function createOffer(inputData: string): Offer {
   const [
     title,
     description,
-    createdDate,
+    postDate,
     city,
     photoPreview,
     photos,
@@ -35,7 +35,7 @@ export function createOffer(inputData: string): Offer {
   return {
     title,
     description,
-    postDate: new Date(createdDate),
+    postDate: new Date(postDate),
     city: City[city as keyof typeof City],
     photoPreview,
     photos: photos.split(';'),

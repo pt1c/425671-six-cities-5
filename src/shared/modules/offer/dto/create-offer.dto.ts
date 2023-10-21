@@ -15,5 +15,6 @@ export class CreateOfferDto {
   public guestsCount: number;
   public price: number;
   public options: OfferOptions[];
+  public authorId: string;
   public location: number[];
 }

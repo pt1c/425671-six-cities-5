@@ -18,13 +18,13 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({ unique: true, required: true })
   public email: string;
 
-  @prop({ unique: true, required: true })
+  @prop({ required: true })
   public password: string;
 
   @prop({ required: false, default: '' })
   public avatarPath: string;
 
-  @prop({ required: true, default: 'Common' })
+  @prop({ required: false, default: 'Common' })
   public type: UserType;
 
   constructor(userData: User) {
