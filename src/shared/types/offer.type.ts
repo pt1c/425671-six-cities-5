@@ -1,9 +1,9 @@
 import { City } from './city.type.js';
-import { EstateOptions } from './estate-options.type.js';
-import { EstateType } from './estate-type.type.js';
+import { OfferOptions } from './offer-options.type.js';
+import { OfferType } from './offer-type.type.js';
 import { User } from './user.type.js';
 
-export type Estate = {
+export type Offer = {
   title: string;
   description: string;
   postDate: Date;
@@ -13,11 +13,11 @@ export type Estate = {
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
-  type: EstateType
+  type: OfferType
   roomsCount: number;
   guestsCount: number;
   price: number;
-  options: EstateOptions[];
+  options: OfferOptions[];
   author: User;
   commentsCount: number;
   location: number[];

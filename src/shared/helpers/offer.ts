@@ -1,6 +1,6 @@
-import { UserType, City, Estate, EstateType, EstateOptions } from '../types/index.js';
+import { UserType, City, Offer, OfferType, OfferOptions } from '../types/index.js';
 
-export function createOffer(inputData: string): Estate {
+export function createOffer(inputData: string): Offer {
   const [
     title,
     description,
@@ -42,11 +42,11 @@ export function createOffer(inputData: string): Estate {
     isPremium: isPremium === 'true',
     isFavorite: isFavorite === 'true',
     rating: Number.parseFloat(rating),
-    type: EstateType[type as keyof typeof EstateType],
+    type: OfferType[type as keyof typeof OfferType],
     roomsCount: Number.parseInt(roomsCount, 10),
     guestsCount: Number.parseInt(guestsCount, 10),
     price: Number.parseInt(price, 10),
-    options: options.split(';').map((option) => EstateOptions[option as keyof typeof EstateOptions]),
+    options: options.split(';').map((option) => OfferOptions[option as keyof typeof OfferOptions]),
     author,
     commentsCount: 0,
     location: location.split(';').map((coord) => Number(coord)),
