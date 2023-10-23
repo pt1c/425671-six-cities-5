@@ -18,10 +18,10 @@ export class HelpCommand implements Command {
 
     console.info(`
         Команды:
-            --version:                   # выводит номер версии
-            --help:                      # печатает этот текст
-            --import <path>:             # импортирует данные из TSV
-            --generate <n> <path> <url>  # генерирует произвольное количество тестовых данных
+            --version:                                                                    # выводит номер версии
+            --help:                                                                       # печатает этот текст
+            --import <file-path> <DB-login> <DB-password> <DB-host> <DB-dbname> <salt>:   # импортирует данные из TSV
+            --generate <n> <path> <url>:                                                  # генерирует произвольное количество тестовых данных
     `);
   }
 }

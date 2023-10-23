@@ -1,4 +1,4 @@
-export enum EstateOptions {
+export enum OfferOptions {
   Breakfast = 'Breakfast',
   AirConditioning = 'Air conditioning',
   LaptopWS = 'Laptop friendly workspace',
