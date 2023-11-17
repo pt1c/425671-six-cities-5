@@ -32,5 +32,17 @@ export class RestApplication {
     this.logger.info('Init database...');
     await this._initDb();
     this.logger.info('Init database completed');
+
+    //test place
+    // const commentContainer = createCommentContainer();
+    // const commentService = commentContainer.get<CommentService>(Component.CommentService);
+
+    // await commentService.create({
+    //   text: 'Тестовый коммент',
+    //   rating: 10,
+    //   offerId: '65343fcce6ed1f63415e77c8',
+    //   authorId: '65343fcce6ed1f63415e77c6',
+    // });
+
   }
 }
