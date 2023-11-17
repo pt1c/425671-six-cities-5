@@ -5,6 +5,7 @@ import { Logger } from '../../libs/logger/index.js';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { OfferEntity } from './offer.entity.js';
 import { UpdateOfferDto, CreateOfferDto } from './index.js';
+import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -32,9 +33,8 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel.find().populate('userId').exec();
   }
 
-
-  public async findByCity(city: string): Promise<DocumentType<OfferEntity>[]> {
-    return this.offerModel.find({ city }).populate('userId').exec();
+  public async findByCity(city: string, limit: number = DEFAULT_OFFER_COUNT): Promise<DocumentType<OfferEntity>[]> {
+    return this.offerModel.find({ city }, {}, {limit}).populate('userId').exec();
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
