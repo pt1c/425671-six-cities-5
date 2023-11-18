@@ -417,10 +417,10 @@ components:
           type: string
           enum: [Amsterdam, Brussels, Cologne, Dusseldorf, Hamburg, Paris]
           example: Hamburg
-        preview:
+        photoPreview:
           type: string
           example: https://pictures/image.jpg
-        pictures:
+        photos:
           type: array
           minItems: 6
           maxItems: 6
@@ -440,10 +440,10 @@ components:
           type: string
           enum: [Apartment, House, Room, Hotel]
           example: House
-        roomsAmount:
+        roomsCount:
           type: number
           example: 2
-        guestsAmount:
+        guestsCount:
           type: number
           example: 3
         price:
@@ -455,13 +455,13 @@ components:
             type: string
             enum: [Breakfast, AirConditioning, LaptopFriendlyWorkspace, BabySeat, Washer, Towels, Fridge]
             example: [Breakfast, Fridge]
-        userId:
+        authorId:
           type: string
           example: 6329c3d6a04ab1061c6425ea
         commentsAmount:
           type: string
           example: 5
-        coordinates:
+        location:
           type: array
           items:
             type: number
