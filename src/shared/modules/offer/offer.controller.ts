@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
-import { BaseController, HttpMethod } from '../../libs/rest/index.js';
+import { BaseController, HttpError, HttpMethod } from '../../libs/rest/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { Component } from '../../types/index.js';
 import { OfferService } from './offer-service.interface.js';
@@ -20,6 +20,7 @@ export class OfferController extends BaseController {
     this.logger.info('Register routes for OfferController...');
 
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.showById });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
   }
 
@@ -29,17 +30,31 @@ export class OfferController extends BaseController {
     this.ok(res, responseData);
   }
 
+  public async showById({ params }: Request, res: Response): Promise<void> {
+    const { offerId } = params;
+
+    if (!offerId) {
+      throw new HttpError(StatusCodes.BAD_REQUEST, `${params.offerId} is not a valid ID`, 'OfferController');
+    }
+
+    const offer = await this.offerService.findById(offerId);
+
+    if (!offer) {
+      throw new HttpError(StatusCodes.NOT_FOUND, `Offer with id ${params.offerId} does not exist`, 'OfferController');
+    }
+
+    this.ok(res, fillDTO(OfferRdo, offer));
+  }
+
   public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
     const existOffer = await this.offerService.findOneByTitle(body.title);
 
     if (existOffer) {
-      const existOfferError = new Error(`Offer with title «${body.title}» exists.`);
-      this.send(res,
+      throw new HttpError(
         StatusCodes.UNPROCESSABLE_ENTITY,
-        { error: existOfferError.message }
+        `Offer with title «${body.title}» exists.`,
+        'CategoryController'
       );
-
-      return this.logger.error(existOfferError.message, existOfferError);
     }
 
     const result = await this.offerService.create(body);
