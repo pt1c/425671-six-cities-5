@@ -20,6 +20,7 @@ export class OfferController extends BaseController {
     this.logger.info('Register routes for OfferController...');
 
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.showById });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
   }
 
@@ -27,6 +28,22 @@ export class OfferController extends BaseController {
     const offers = await this.offerService.find();
     const responseData = fillDTO(OfferRdo, offers);
     this.ok(res, responseData);
+  }
+
+  public async showById({ params }: Request, res: Response): Promise<void> {
+    const { offerId } = params;
+
+    if (!offerId) {
+      throw new HttpError(StatusCodes.BAD_REQUEST, `${params.offerId} is not a valid ID`, 'OfferController');
+    }
+
+    const offer = await this.offerService.findById(offerId);
+
+    if (!offer) {
+      throw new HttpError(StatusCodes.NOT_FOUND, `Offer with id ${params.offerId} does not exist`, 'OfferController');
+    }
+
+    this.ok(res, fillDTO(OfferRdo, offer));
   }
 
   public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
