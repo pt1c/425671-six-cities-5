@@ -33,6 +33,10 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel.find().populate('authorId').exec();
   }
 
+  public async findOneByTitle(title: string): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel.findOne({ title }).populate('authorId').exec();
+  }
+
   public async findByCity(city: string, limit: number = DEFAULT_OFFER_COUNT): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel.find({ city }, {}, {limit}).populate('authorId').exec();
   }
