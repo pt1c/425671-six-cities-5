@@ -1,8 +1,24 @@
-# Get mock data from fake server
-GET http://localhost:5000/offers HTTP/1.1
+
+@hostname = http://localhost:4000
+
+get {{hostname}}/offers
 
 ###
 
-GET http://localhost:5000/offers/65db2437134b5517a2840445 HTTP/1.1
+post {{hostname}}/comments
+Content-Type: application/json
+
+{
+  "text": "Test Comment",
+  "rating": 0,
+  "offerId": "65db2437134b5517a2840445",
+  "authorId": "65db2437134b5517a2840442"
+}
 
 ###
+
+get {{hostname}}/offers/65db2437134b5517a2840445
+
+###
+
+get {{hostname}}/offers/65db2437134b5517a2840445/comments

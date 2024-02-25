@@ -4,17 +4,20 @@ import { BaseController, HttpError, HttpMethod } from '../../libs/rest/index.js'
 import { Logger } from '../../libs/logger/index.js';
 import { Component } from '../../types/index.js';
 import { OfferService } from './offer-service.interface.js';
+import { CommentService } from '../comment/comment-service.interface.js';
 import { fillDTO } from '../../helpers/index.js';
 import { OfferRdo } from './rdo/offer.rdo.js';
 import { StatusCodes } from 'http-status-codes';
 import { ParamOfferID, CreateOfferRequest } from './type/index.js';
 import { UpdateOfferDto } from './index.js';
+import { CommentRdo } from '../comment/rdo/comment.rdo.js';
 
 @injectable()
 export class OfferController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.OfferService) private readonly offerService: OfferService,
+    @inject(Component.CommentService) private readonly commentService: CommentService,
   ) {
     super(logger);
 
@@ -25,6 +28,8 @@ export class OfferController extends BaseController {
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Delete, handler: this.delete });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.update });
+    //комментарии
+    this.addRoute({ path: '/:offerId/comments', method: HttpMethod.Get, handler: this.getComments });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -92,6 +97,11 @@ export class OfferController extends BaseController {
     }
 
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
+  }
+
+  public async getComments({ params }: Request<ParamOfferID>, res: Response): Promise<void> {
+    const comments = await this.commentService.findByOfferId(params.offerId);
+    this.ok(res, fillDTO(CommentRdo, comments));
   }
 
 
