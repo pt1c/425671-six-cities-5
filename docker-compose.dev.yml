@@ -2,7 +2,7 @@ version: '3.9'
 services:
   db:
     image: mongo:4.2
-    restart: always
+    restart: unless-stopped
     container_name: buy-and-sell_mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
@@ -14,7 +14,7 @@ services:
 
   db_ui:
     image: mongo-express:latest
-    restart: always
+    restart: unless-stopped
     container_name: buy-and-sell_mongo_express
     ports:
       - 8081:8081
