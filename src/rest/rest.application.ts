@@ -48,6 +48,13 @@ export class RestApplication {
 
   private async _initMiddleware() {
     this.server.use(express.json());
+
+    // не нужно этого делать на продакшене! Только для теста и разработки
+    // на проде убрать в конфиг nginx
+    this.server.use(
+      '/upload',
+      express.static(this.config.get('UPLOAD_DIRECTORY'))
+    );
   }
 
   private async _initExceptionFilters() {

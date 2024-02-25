@@ -43,17 +43,7 @@ export class OfferController extends BaseController {
 
   public async showById({ params }: Request<ParamOfferID>, res: Response): Promise<void> {
     const { offerId } = params;
-
-    if (!offerId) {
-      throw new HttpError(StatusCodes.BAD_REQUEST, `${params.offerId} is not a valid ID`, 'OfferController');
-    }
-
     const offer = await this.offerService.findById(offerId);
-
-    if (!offer) {
-      throw new HttpError(StatusCodes.NOT_FOUND, `Offer with id ${params.offerId} does not exist`, 'OfferController');
-    }
-
     this.ok(res, fillDTO(OfferRdo, offer));
   }
 

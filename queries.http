@@ -50,3 +50,17 @@ get {{hostname}}/offers/65db2437134b5517a2840445
 ###
 
 get {{hostname}}/offers/65db2437134b5517a2840445/comments
+
+###
+
+## Отправить изображение
+
+POST {{hostname}}/users/65db2437134b5517a2840442/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="kandinsky-download-1708522976061.png"
+Content-Type: image/png
+
+< C:\Users\pt1c\Desktop\kandinsky-download-1708522976061.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
