@@ -6,8 +6,9 @@ import { Component } from '../../types/index.js';
 import { OfferService } from './offer-service.interface.js';
 import { fillDTO } from '../../helpers/index.js';
 import { OfferRdo } from './rdo/offer.rdo.js';
-import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { StatusCodes } from 'http-status-codes';
+import { ParamOfferID, CreateOfferRequest } from './type/index.js';
+import { UpdateOfferDto } from './index.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -22,6 +23,8 @@ export class OfferController extends BaseController {
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.showById });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Delete, handler: this.delete });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.update });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -30,7 +33,7 @@ export class OfferController extends BaseController {
     this.ok(res, responseData);
   }
 
-  public async showById({ params }: Request, res: Response): Promise<void> {
+  public async showById({ params }: Request<ParamOfferID>, res: Response): Promise<void> {
     const { offerId } = params;
 
     if (!offerId) {
@@ -46,18 +49,50 @@ export class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, offer));
   }
 
-  public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
+  //public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
+  public async create({ body }: CreateOfferRequest, res: Response): Promise<void> {
     const existOffer = await this.offerService.findOneByTitle(body.title);
 
     if (existOffer) {
       throw new HttpError(
         StatusCodes.UNPROCESSABLE_ENTITY,
         `Offer with title «${body.title}» exists.`,
-        'CategoryController'
+        'OfferController'
       );
     }
 
     const result = await this.offerService.create(body);
     this.created(res, fillDTO(OfferRdo, result));
   }
+
+  public async delete({ params }: Request<ParamOfferID>, res: Response): Promise<void> {
+    const { offerId } = params;
+    const offer = await this.offerService.deleteById(offerId);
+
+    if (offer) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with «${offerId}» not found.`,
+        'OfferController'
+      );
+    }
+
+    this.noContent(res, offer);
+  }
+
+  public async update({ body, params }: Request<ParamOfferID, unknown, UpdateOfferDto>, res: Response): Promise<void> {
+    const updatedOffer = await this.offerService.updateById(params.offerId, body);
+
+    if (updatedOffer) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with «${params.offerId}» not found.`,
+        'OfferController'
+      );
+    }
+
+    this.ok(res, fillDTO(OfferRdo, updatedOffer));
+  }
+
+
 }
