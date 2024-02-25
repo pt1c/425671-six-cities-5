@@ -5,6 +5,34 @@ get {{hostname}}/offers
 
 ###
 
+post {{hostname}}/offers
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "",
+  "postDate": "",
+  "city": "",
+  "photoPreview": "",
+  "photos": "",
+  "isPremium": "",
+  "isFavorite": "",
+  "rating": "",
+  "type": "",
+  "roomsCount": "",
+  "guestsCount": "",
+  "price": "",
+  "options": "",
+  "authorId": "",
+  "location": ""
+}
+
+###
+
+get {{hostname}}/offers/65db2437134b5517a2840441
+
+###
+
 post {{hostname}}/comments
 Content-Type: application/json
 
